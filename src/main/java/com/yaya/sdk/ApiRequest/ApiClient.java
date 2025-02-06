@@ -1,4 +1,10 @@
 package com.yaya.sdk.ApiRequest;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.yaya.sdk.models.Time;
+
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -7,23 +13,16 @@ import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.util.*;
-
-import com.yaya.sdk.Models.Time;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
+import java.util.Base64;
 
 public class ApiClient {
 
-    private String API_URL = System.getenv("YAYA_API_URL");
-    private String API_PATH = System.getenv("YAYA_API_PATH");
-    private String API_KEY = System.getenv("YAYA_API_KEY");
-    private String API_SECRET = System.getenv("YAYA_API_SECRET");
-
     private final ObjectMapper objectMapper;
     private final HttpClient httpClient;
+    private final String API_URL = System.getenv("YAYA_API_URL");
+    private final String API_PATH = System.getenv("YAYA_API_PATH");
+    private final String API_KEY = System.getenv("YAYA_API_KEY");
+    private final String API_SECRET = System.getenv("YAYA_API_SECRET");
 
     public ApiClient() {
         this.objectMapper = new ObjectMapper();
@@ -62,7 +61,7 @@ public class ApiClient {
     }
 
     private Time getTime() throws IOException, InterruptedException {
-        String url = API_URL + "/time" ;
+        String url = API_URL + "/time";
 
         HttpRequest.Builder requestBuilder = HttpRequest.newBuilder()
                 .uri(URI.create(url))
